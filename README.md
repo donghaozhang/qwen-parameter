@@ -11,14 +11,32 @@ The Qwen2.5-VL model is a multimodal model that combines vision and language cap
 3. Run inference with the model
 4. Explore the model's structure in detail
 
-## Files
+## Repository Structure
 
-- `qwen_parameter_analyzer.py`: **NEW** Combined comprehensive analyzer for model parameters, architecture, and merger components
-- `para.py`: Analyzes the vision-language merger architecture
-- `para_analyse.py`: Provides detailed parameter analysis of different model components
-- `para_visual.py`: Prints the model structure to understand its components
-- `para_visual.md`: Contains output from model structure analysis
+```
+qwen/
+├── .cursor/rules/              # Cursor IDE navigation rules
+├── archive/                    # Archived individual analysis scripts
+│   ├── para_analyse.py         # Parameter analysis script
+│   ├── para.py                 # Merger architecture analysis script
+│   ├── para_visual.py          # Structure visualization script
+│   ├── qwen_vl_utils.py        # Qwen VL utilities
+│   └── utils.py                # General utilities
+├── results/                    # Analysis results and documentation
+│   ├── para_abalyse.md         # Parameter analysis results
+│   ├── para.md                 # Merger architecture analysis results
+│   ├── para_visual.md          # Structure visualization results
+│   └── qwen_parameter_analysis.md  # Comprehensive analysis document
+├── qwen_parameter_analyzer.py  # Combined analysis tool
+├── qwen2_5_run.py              # Model inference script
+└── requirements.txt            # Project dependencies
+```
+
+## Main Files
+
+- `qwen_parameter_analyzer.py`: Comprehensive analyzer for model parameters, architecture, and merger components
 - `qwen2_5_run.py`: Example script for running inference with the model
+- `results/qwen_parameter_analysis.md`: Detailed analysis of the model architecture and parameters
 
 ## Requirements
 
@@ -31,7 +49,7 @@ The Qwen2.5-VL model is a multimodal model that combines vision and language cap
 
 ### Comprehensive Analysis (Recommended)
 
-Use the new combined script for all analyses:
+Use the combined script for all analyses:
 
 ```bash
 # Run all analyses
@@ -46,31 +64,22 @@ python qwen_parameter_analyzer.py --analysis merger
 python qwen_parameter_analyzer.py --model "Qwen/Qwen2.5-VL-7B-Instruct" --device cuda
 ```
 
-### Individual Analysis Scripts
-
-To analyze the model architecture:
-
-```bash
-python para.py
-```
-
-To run detailed parameter analysis:
-
-```bash
-python para_analyse.py
-```
-
-To visualize the model structure:
-
-```bash
-python para_visual.py
-```
+### Model Inference
 
 To run inference with the model:
 
 ```bash
 python qwen2_5_run.py
 ```
+
+## Analysis Results
+
+The analysis results are stored in the `results/` directory:
+
+- `qwen_parameter_analysis.md`: Comprehensive analysis of the model architecture
+- `para_visual.md`: Detailed output of the model structure
+- `para.md`: Analysis of the vision-language merger architecture
+- `para_abalyse.md`: Detailed parameter distribution analysis
 
 ## License
 
