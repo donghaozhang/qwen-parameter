@@ -13,6 +13,7 @@ The Qwen2.5-VL model is a multimodal model that combines vision and language cap
 
 ## Files
 
+- `qwen_parameter_analyzer.py`: **NEW** Combined comprehensive analyzer for model parameters, architecture, and merger components
 - `para.py`: Analyzes the vision-language merger architecture
 - `para_analyse.py`: Provides detailed parameter analysis of different model components
 - `para_visual.py`: Prints the model structure to understand its components
@@ -27,6 +28,25 @@ The Qwen2.5-VL model is a multimodal model that combines vision and language cap
 - prettytable
 
 ## Usage
+
+### Comprehensive Analysis (Recommended)
+
+Use the new combined script for all analyses:
+
+```bash
+# Run all analyses
+python qwen_parameter_analyzer.py
+
+# Run specific analysis type
+python qwen_parameter_analyzer.py --analysis structure
+python qwen_parameter_analyzer.py --analysis components
+python qwen_parameter_analyzer.py --analysis merger
+
+# Specify model or device
+python qwen_parameter_analyzer.py --model "Qwen/Qwen2.5-VL-7B-Instruct" --device cuda
+```
+
+### Individual Analysis Scripts
 
 To analyze the model architecture:
 
