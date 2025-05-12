@@ -36,25 +36,6 @@ def count_trainable_parameters(model):
 
 def print_model_structure(model):
     """Print the structure of the model to understand its components."""
-    # Print top-level attributes
-    print("\nTop-level attributes:")
-    for attr_name in dir(model):
-        if not attr_name.startswith("_") and not callable(getattr(model, attr_name)):
-            try:
-                attr = getattr(model, attr_name)
-                if isinstance(attr, torch.nn.Module):
-                    param_count = sum(p.numel() for p in attr.parameters())
-                    print(f"- {attr_name}: {type(attr).__name__} ({format_param_count(param_count)} parameters)")
-                else:
-                    print(f"- {attr_name}: {type(attr).__name__}")
-            except Exception as e:
-                print(f"- {attr_name}: Error accessing ({str(e)})")
-    
-    # Print top-level modules
-    print("\nTop-level modules (named_children):")
-    for name, module in model.named_children():
-        param_count = sum(p.numel() for p in module.parameters())
-        print(f"- {name}: {type(module).__name__} ({format_param_count(param_count)} parameters)")
     
     # Print all modules with "visual" or "vision" in the name
     print("\nVision-related modules:")
@@ -299,13 +280,13 @@ def visualize_merger_flow():
     └───────┬───────┘      └──────┬───────┘
             │                     │
             ▼                     ▼
-    ┌───────────────┐      ┌──────────────┐
+    ┌───────────────┐      ┌──────────────  ┐
     │Vision Features│      │Token Embeddings│
-    └───────┬───────┘      └──────┬───────┘
+    └───────┬───────┘      └──────┬───────  ┘
             │                     │
             ▼                     │
     ┌───────────────┐             │
-    │Vision Projection│            │
+    │Vision Projection│           │
     └───────┬───────┘             │
             │                     │
             ▼                     ▼
@@ -349,12 +330,11 @@ def main():
     
     args = parser.parse_args()
     
+    visualize_merger_flow()
+    
     # Load model
     model = load_model(args.model, args.device)
-    
-    if args.analysis == "all" or args.analysis == "structure":
-        print("\n=== MODEL STRUCTURE ANALYSIS ===")
-        print_model_structure(model)
+
     
     if args.analysis == "all" or args.analysis == "components":
         print("\n=== MODEL COMPONENTS ANALYSIS ===")
@@ -363,12 +343,16 @@ def main():
     if args.analysis == "all" or args.analysis == "merger":
         print("\n=== VISION-LANGUAGE MERGER ANALYSIS ===")
         merger_components = analyze_merger_architecture(model)
-        visualize_merger_flow()
     
     # Print overall architecture summary
     print("\nOverall Model Architecture:")
     for i, (name, module) in enumerate(model.named_children()):
         print(f"{i+1}. {name}: {module.__class__.__name__} ({format_param_count(count_parameters(module))} params)")
+    
+
+    if args.analysis == "all" or args.analysis == "structure":
+        print("\n=== MODEL STRUCTURE ANALYSIS ===")
+        print_model_structure(model)
     
     print("\nAnalysis complete!")
 
