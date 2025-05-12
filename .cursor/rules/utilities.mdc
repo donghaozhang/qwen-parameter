@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Utility Functions Guide
+
+## Core Utilities
+[utils.py](mdc:utils.py) contains shared utility functions used throughout the codebase.
+
+## Common Patterns
+When working with the codebase, import utility functions from [utils.py](mdc:utils.py) rather than reimplementing common functionality.
+
+## Archive
+The [archive/](mdc:archive) directory contains older versions of code that are kept for reference but are no longer actively used in the main workflow.

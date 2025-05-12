@@ -1,0 +1,26 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Qwen Parameter Analysis Project Guide
+
+## Core Files
+- [para.py](mdc:para.py): Main parameter analysis script
+- [para_analyse.py](mdc:para_analyse.py): Parameter analysis functions
+- [para_visual.py](mdc:para_visual.py): Visualization tools for parameter analysis
+- [qwen2_5_run.py](mdc:qwen2_5_run.py): Script for running Qwen 2.5 model
+- [utils.py](mdc:utils.py): Utility functions used across the project
+
+## Documentation
+- [para_visual.md](mdc:para_visual.md): Documentation for parameter visualization
+- [README.md](mdc:README.md): Project overview and instructions
+
+## Project Structure
+The project focuses on analyzing and visualizing parameters of the Qwen model. The main workflow typically involves:
+1. Running parameter extraction with [para.py](mdc:para.py)
+2. Analyzing parameters with [para_analyse.py](mdc:para_analyse.py)
+3. Visualizing results using [para_visual.py](mdc:para_visual.py)
+
+## Dependencies
+Dependencies are listed in [requirements.txt](mdc:requirements.txt)

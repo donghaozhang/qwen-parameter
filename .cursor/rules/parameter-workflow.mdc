@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Parameter Analysis Workflow
+
+## Parameter Extraction
+Start with [para.py](mdc:para.py) to extract parameters from the Qwen model.
+
+## Analysis Process
+The analysis pipeline is implemented in [para_analyse.py](mdc:para_analyse.py), which processes the extracted parameters.
+
+## Visualization
+Use [para_visual.py](mdc:para_visual.py) to create visualizations of the analyzed parameters.
+Refer to [para_visual.md](mdc:para_visual.md) for documentation on the visualization options.
+
+## Running the Model
+[qwen2_5_run.py](mdc:qwen2_5_run.py) contains the code for running the Qwen 2.5 model with the analyzed parameters.
