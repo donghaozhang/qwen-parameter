@@ -38,11 +38,11 @@ def print_model_structure(model):
     """Print the structure of the model to understand its components."""
     
     # Print all modules with "visual" or "vision" in the name
-    print("\nVision-related modules:")
+    # print("\nVision-related modules:")
     for name, module in model.named_modules():
-        if "visual" in name or "vision" in name:
-            param_count = sum(p.numel() for p in module.parameters())
-            print(f"- {name}: {type(module).__name__} ({format_param_count(param_count)} parameters)")
+        # if "visual" in name or "vision" in name:
+        param_count = sum(p.numel() for p in module.parameters())
+        print(f"- {name}: {type(module).__name__} ({format_param_count(param_count)} parameters)")
     
     # Print model config
     print("\nModel config:")
@@ -76,24 +76,24 @@ def analyze_model_components(model):
     language_percent = (language_params / total_params) * 100
     
     # Analyze vision-language connector (merger)
-    connector_params = 0
-    if hasattr(model, 'vision_projection'):
-        connector_params += count_parameters(model.vision_projection)
-    if hasattr(model, 'multi_modal_projector'):
-        connector_params += count_parameters(model.multi_modal_projector)
-    if hasattr(model, 'mm_projector'):
-        connector_params += count_parameters(model.mm_projector)
-    connector_percent = (connector_params / total_params) * 100
+    # connector_params = 0
+    # if hasattr(model, 'vision_projection'):
+    #     connector_params += count_parameters(model.vision_projection)
+    # if hasattr(model, 'multi_modal_projector'):
+    #     connector_params += count_parameters(model.multi_modal_projector)
+    # if hasattr(model, 'mm_projector'):
+    #     connector_params += count_parameters(model.mm_projector)
+    # connector_percent = (connector_params / total_params) * 100
     
     # Other parameters (embeddings, etc.)
-    other_params = total_params - vision_params - language_params - connector_params
+    other_params = total_params - vision_params - language_params 
     other_percent = (other_params / total_params) * 100
     
     # Add rows to the table
     table.add_row(["Vision Encoder", format_param_count(vision_params), f"{vision_percent:.2f}%"])
     table.add_row(["Language Model", format_param_count(language_params), f"{language_percent:.2f}%"])
-    table.add_row(["Vision-Language Connector", format_param_count(connector_params), f"{connector_percent:.2f}%"])
-    table.add_row(["Other Components", format_param_count(other_params), f"{other_percent:.2f}%"])
+    # table.add_row(["Vision-Language Connector", format_param_count(connector_params), f"{connector_percent:.2f}%"])
+    table.add_row(["Language Modeling Head", format_param_count(other_params), f"{other_percent:.2f}%"])
     table.add_row(["Total", format_param_count(total_params), "100.00%"])
     
     print(table)
@@ -174,17 +174,40 @@ def analyze_language_model(model):
         params_per_layer = layers_params / num_layers
         language_table.add_row(["Transformer Layers", f"{format_param_count(layers_params)} ({num_layers} layers, {format_param_count(params_per_layer)} per layer)"])
     
+    print(language_table)
+    
+    # Add analysis of language modeling head
+    print("\nDetailed Language Modeling Head Analysis:")
+    analyze_language_modeling_head(model, language_component)
+
+def analyze_language_modeling_head(model, language_component):
+    """Analyze the components of the language modeling head."""
+    lm_head_table = PrettyTable()
+    lm_head_table.field_names = ["Component", "Parameters"]
+    
     # LM Head
+    lm_head_params = 0
     if hasattr(model, 'lm_head'):
         lm_head_params = count_parameters(model.lm_head)
-        language_table.add_row(["LM Head", format_param_count(lm_head_params)])
+        lm_head_table.add_row(["LM Head", format_param_count(lm_head_params)])
     
-    # Norm
+    # Final Norm
+    norm_params = 0
     if hasattr(language_component, 'norm'):
         norm_params = count_parameters(language_component.norm)
-        language_table.add_row(["Final Norm", format_param_count(norm_params)])
+        lm_head_table.add_row(["Final Norm", format_param_count(norm_params)])
     
-    print(language_table)
+    # Additional components that might be part of language modeling head
+    # Check for output projection or bias
+    # if hasattr(model, 'output_projection'):
+    #     output_proj_params = count_parameters(model.output_projection)
+    #     lm_head_table.add_row(["Output Projection", format_param_count(output_proj_params)])
+    
+    # Calculate total parameters in language modeling head
+    total_lm_head_params = lm_head_params + norm_params
+    lm_head_table.add_row(["Total", format_param_count(total_lm_head_params)])
+    
+    print(lm_head_table)
 
 def analyze_merger_architecture(model):
     """Analyze the vision-language merger architecture in detail."""
